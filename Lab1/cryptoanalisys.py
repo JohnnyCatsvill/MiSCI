@@ -49,11 +49,11 @@ def main():
                 if type(res) == bytes:  # if we still getting good result
                     key += res  # adding them to key
                 else:  # good try, key could be here, but we cant break this exact char
-                    print("good try key - " + key.decode(ENCODING_NAME))
+                    print(f"Not valid key - '{key.decode(ENCODING_NAME)}'")
                     break  # running everything again with new key_length
 
             else:  # we find all parts of key!
-                print(key)
+                print(f"Key is - '{key.decode(ENCODING_NAME)}'")
                 break  # no need to go deeper
 
     else:  # well, we looked through all key length but not find any valid key
