@@ -12,7 +12,8 @@ def cipher(filename_in: str, filename_out: str, secret_key: bytes, mode: CipherM
     # guard to cut off situation when there are bad chars in key
     for ch_ord in secret_key:
         if ch_ord not in KEY_ALPHABET:
-            raise Exception(f"KEY unsupported characters - '{ch_ord.to_bytes(BYTE_DEPTH, ENCODING_ENDIAN)}'")
+            bad_char = ch_ord.to_bytes(BYTE_DEPTH, ENCODING_ENDIAN).decode(ENCODING_NAME)
+            raise Exception(f"KEY unsupported characters - '{bad_char}'")
 
     # opening files to be read / written in binary mode
     with open(filename_in, mode='rb') as f_in, \
