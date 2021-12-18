@@ -27,7 +27,7 @@ def break_with_certain_length(filename_in: str, breaking_index: int, key_length:
 
 def main():
     filename_in = sys.argv[1]
-    A = set(i for i in TEXT_ALPHABET)  # it looks like set of integers, because its easier to work with
+    A = set(i for i in TEXT_ALPHABET + KEY_ALPHABET)  # it looks like set of integers, because its easier to work with
 
     key_length = 1
     key = b""
