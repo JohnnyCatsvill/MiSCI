@@ -1,3 +1,5 @@
+from functools import cache
+
 from utils.constants import *
 from enum import Enum
 
@@ -5,6 +7,12 @@ from enum import Enum
 class CipherMode(Enum):
     Cipher = 0
     Decipher = 1
+
+@cache
+def r(index) -> int:
+    if index == 1:
+        return (1 * A + C) % MAX_KEY_LENGTH
+    return (r(index - 1) * A + C) % MAX_KEY_LENGTH
 
 
 def cipher(filename_in: str, filename_out: str, secret_key: bytes, mode: CipherMode):
@@ -22,17 +30,17 @@ def cipher(filename_in: str, filename_out: str, secret_key: bytes, mode: CipherM
 
         # preparing index for key, to know what part of key should be used in our ciphering
         key_ord = key
+        key_val = r(key_ord)
 
         # reading input file 2 bytes per time
         while ch_byte := f_in.read(BYTE_DEPTH):
-
             # guard to cut off bad char before ciphering text
             if mode == CipherMode.Cipher and ch_byte not in TEXT_ALPHABET:
                 raise Exception(f"TEXT unsupported characters - '{ch_byte.decode(ENCODING_NAME)}'")
 
             # taking char ordeal numbers and adding or subtracting them basing on mode
             ch_ord = int.from_bytes(ch_byte, ENCODING_ENDIAN)
-            new_ord = ((ch_ord + key_ord) if mode == CipherMode.Cipher else (ch_ord - key_ord)) % M
+            new_ord = ((ch_ord + key_val) if mode == CipherMode.Cipher else (ch_ord - key_val)) % M
             # creating new char of certain encoding
             new_byte = new_ord.to_bytes(BYTE_DEPTH, ENCODING_ENDIAN)
 
@@ -45,6 +53,4 @@ def cipher(filename_in: str, filename_out: str, secret_key: bytes, mode: CipherM
 
             # incrementing key index, and zeroing index if it's runs out secret key boundary
             key_ord += 1
-            if key_ord >= MAX_KEY_LENGTH:
-                # actually i don't know if this an error, should key_ord just return to 0 state?
-                raise Exception(f"runs out of key boundaries - '{MAX_KEY_LENGTH}'")
+            key_val = r(key_ord)

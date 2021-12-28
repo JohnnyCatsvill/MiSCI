@@ -36,40 +36,16 @@ ENGLISH_BIG = chars("A", "Z")
 ENGLISH_SMALL = chars("a", "z")
 BYTE_ORDER_MARK = b'\xff\xfe'
 
-BYTE_DEPTH = 2
-ENCODING_NAME = "UTF-16"
+BYTE_DEPTH = 1
+ENCODING_NAME = "windows-1251"
 ENCODING_ENDIAN = "little"
 
 TEXT_ALPHABET = BYTE_ORDER_MARK + (PS + CR + PUNCTUATION + NUMBERS + ENGLISH_BIG + ENGLISH_SMALL).encode(ENCODING_NAME)
 KEY_ALPHABET = NUMBERS.encode(ENCODING_NAME)
 M = 2 ** (BYTE_DEPTH * 8)
+A = 3
+C = 0
 
 MAX_KEY_LENGTH = 2**32+1
 
-BASE_DISTRIBUTION = {
-    "A": 0.081,
-    "B": 0.014,
-    "C": 0.027,
-    "D": 0.039,
-    "E": 0.130,
-    "F": 0.029,
-    "G": 0.020,
-    "H": 0.052,
-    "I": 0.065,
-    "J": 0.002,
-    "K": 0.004,
-    "L": 0.034,
-    "M": 0.025,
-    "N": 0.072,
-    "O": 0.079,
-    "P": 0.020,
-    "R": 0.069,
-    "S": 0.061,
-    "T": 0.105,
-    "U": 0.024,
-    "V": 0.009,
-    "W": 0.015,
-    "X": 0.002,
-    "Y": 0.019,
-    "Z": 0.001,
-}
+SEARCH_CAP = 200
